@@ -23,7 +23,7 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import { useSearch } from "@/hooks/use-search";
-// import { useSettings } from "@/hooks/use-settings";
+import { useSettings } from "@/hooks/use-settings";
 
 import { UserItem } from "./user-item";
 import { Item } from "./item";
@@ -33,7 +33,7 @@ import { TrashBox } from "./trash-box";
 
 export const Navigation = () => {
   const router = useRouter();
-  // const settings = useSettings();
+  const settings = useSettings();
   const search = useSearch();
   const params = useParams();
   const pathname = usePathname();
@@ -147,7 +147,7 @@ export const Navigation = () => {
           onClick={collapse}
           role="button"
           className={cn(
-            "h-6 w-6 text-muted-foreground rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100 transition",
+            "h-6 w-6 text-muted-foreground rounded-sm hover:bg-slate-300 dark:hover:bg-slate-600 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100 transition",
             isMobile && "opacity-100"
           )}
         >
@@ -156,7 +156,7 @@ export const Navigation = () => {
         <div>
           <UserItem />
           <Item label="Search" icon={Search} isSearch onClick={search.onOpen} />
-          <Item label="Settings" icon={Settings} onClick={() => {}} />
+          <Item label="Settings" icon={Settings} onClick={settings.onOpen} />
           <Item onClick={handleCreate} label="New page" icon={PlusCircle} />
         </div>
         <div className="mt-4">
