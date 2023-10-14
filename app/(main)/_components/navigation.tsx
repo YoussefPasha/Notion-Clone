@@ -1,33 +1,41 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import {
   ChevronsLeft,
   MenuIcon,
-  Mouse,
   Plus,
   PlusCircle,
   Search,
   Settings,
   Trash,
 } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { ElementRef, useRef, useState, useEffect } from "react";
+import { useParams, usePathname, useRouter } from "next/navigation";
+import { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
-import { UserItem } from "./user-item";
 import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import { Item } from "../_components/item";
 import { toast } from "sonner";
-import { DocumentList } from "./document-list";
+
+import { cn } from "@/lib/utils";
+import { api } from "@/convex/_generated/api";
 import {
   Popover,
-  PopoverContent,
   PopoverTrigger,
+  PopoverContent,
 } from "@/components/ui/popover";
+import { useSearch } from "@/hooks/use-search";
+// import { useSettings } from "@/hooks/use-settings";
+
+import { UserItem } from "./user-item";
+import { Item } from "./item";
+import { DocumentList } from "./document-list";
 import { TrashBox } from "./trash-box";
+// import { Navbar } from "./navbar";
 
 export const Navigation = () => {
+  const router = useRouter();
+  // const settings = useSettings();
+  const search = useSearch();
+  const params = useParams();
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const create = useMutation(api.documents.create);
@@ -73,11 +81,14 @@ export const Navigation = () => {
     if (sidebarRef.current && navbarRef.current) {
       sidebarRef.current.style.width = `${newWidth}px`;
       navbarRef.current.style.setProperty("left", `${newWidth}px`);
-      navbarRef.current.style.setProperty("width", `calc(100% -${newWidth}px)`);
+      navbarRef.current.style.setProperty(
+        "width",
+        `calc(100% - ${newWidth}px)`
+      );
     }
   };
 
-  const handleMouseUp = (event: MouseEvent) => {
+  const handleMouseUp = () => {
     isResizingRef.current = false;
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);
@@ -111,12 +122,14 @@ export const Navigation = () => {
   };
 
   const handleCreate = () => {
-    const promise = create({ title: "Untitled" });
+    const promise = create({ title: "Untitled" }).then((documentId) =>
+      router.push(`/documents/${documentId}`)
+    );
 
     toast.promise(promise, {
       loading: "Creating a new note...",
       success: "New note created!",
-      error: "Failed to create a new note",
+      error: "Failed to create a new note.",
     });
   };
 
@@ -131,8 +144,8 @@ export const Navigation = () => {
         )}
       >
         <div
-          role="button"
           onClick={collapse}
+          role="button"
           className={cn(
             "h-6 w-6 text-muted-foreground rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100 transition",
             isMobile && "opacity-100"
@@ -142,9 +155,9 @@ export const Navigation = () => {
         </div>
         <div>
           <UserItem />
-          <Item label="Search" icon={Search} isSearch onClick={() => {}} />
+          <Item label="Search" icon={Search} isSearch onClick={search.onOpen} />
           <Item label="Settings" icon={Settings} onClick={() => {}} />
-          <Item onClick={handleCreate} label="New Page" icon={PlusCircle} />
+          <Item onClick={handleCreate} label="New page" icon={PlusCircle} />
         </div>
         <div className="mt-4">
           <DocumentList />
@@ -175,6 +188,9 @@ export const Navigation = () => {
           isMobile && "left-0 w-full"
         )}
       >
+        {/* {!!params.documentId ? (
+          <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
+        ) : ( */}
         <nav className="bg-transparent px-3 py-2 w-full">
           {isCollapsed && (
             <MenuIcon
@@ -184,6 +200,7 @@ export const Navigation = () => {
             />
           )}
         </nav>
+        {/* )} */}
       </div>
     </>
   );

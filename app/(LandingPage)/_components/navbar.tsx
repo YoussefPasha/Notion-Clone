@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { useScrollTop } from "@/Hooks/user-scroll-top";
+import { useScrollTop } from "@/hooks/user-scroll-top";
 import { useConvexAuth } from "convex/react";
 import { SignInButton, UserButton } from "@clerk/clerk-react";
 import { cn } from "@/lib/utils";
