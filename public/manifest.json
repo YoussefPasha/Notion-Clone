@@ -1,0 +1,23 @@
+{
+    "name": "NotionII",
+    "short_name": "notionII",
+    "theme_color": "#1F1F1F",
+    "background_color": "#fff",
+    "display": "standalone",
+    "orientation": "portrait",
+    "scope": "/",
+    "start_url": "/",
+    "icons": [
+      {
+        "src": "/logo.svg",
+        "type": "image/svg",
+        "purpose": "maskable any"
+      },
+      {
+        "src": "/logo-dark.svg",
+        "type": "image/svg",
+        "purpose": "maskable any"
+      }
+    ],
+    "splash_pages": null
+  }

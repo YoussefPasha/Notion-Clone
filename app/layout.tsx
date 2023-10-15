@@ -1,19 +1,26 @@
 import { Toaster } from "sonner";
-import { Inter } from 'next/font/google'
-import type { Metadata } from 'next'
+import { Inter } from "next/font/google";
+import type { Metadata } from "next";
 
-import { ThemeProvider } from '@/components/providers/theme-provider'
-import { ConvexClientProvider } from '@/components/providers/convex-provider'
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ConvexClientProvider } from "@/components/providers/convex-provider";
 import { ModalProvider } from "@/components/providers/modal-provider";
 import { EdgeStoreProvider } from "@/lib/edgestore";
 
-import './globals.css'
+import "./globals.css";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'NotionII',
-  description: 'The connected workspace where better, faster work happens.',
+  title: "NotionII",
+  description: "The connected workspace where better, faster work happens.",
+  generator: "Next.js",
+  manifest: "/manifest.json",
+  keywords: ["notion", "notionII", "NotionII"],
+  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#fff" }],
+  authors: [{ name: "Joe Pasha" }],
+  viewport:
+    "minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover",
   icons: {
     icon: [
       {
@@ -25,15 +32,15 @@ export const metadata: Metadata = {
         media: "(prefers-color-scheme: dark)",
         url: "/logo-dark.svg",
         href: "/logo-dark.svg",
-      }
-    ]
-  }
-}
+      },
+    ],
+  },
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -55,5 +62,5 @@ export default function RootLayout({
         </ConvexClientProvider>
       </body>
     </html>
-  )
+  );
 }
