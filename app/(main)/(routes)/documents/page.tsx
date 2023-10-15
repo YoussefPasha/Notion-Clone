@@ -16,18 +16,17 @@ const DocumentsPage = () => {
   const create = useMutation(api.documents.create);
 
   const onCreate = () => {
-    const promise = create({ title: "Untitled" }).then((documentId) =>
-      router.push(`/documents/${documentId}`)
-    );
+    const promise = create({ title: "Untitled" })
+      .then((documentId) => router.push(`/documents/${documentId}`))
 
     toast.promise(promise, {
       loading: "Creating a new note...",
       success: "New note created!",
-      error: "Failed to create a new note.",
+      error: "Failed to create a new note."
     });
   };
 
-  return (
+  return ( 
     <div className="h-full flex flex-col items-center justify-center space-y-4">
       <Image
         src="/empty.png"
@@ -51,7 +50,7 @@ const DocumentsPage = () => {
         Create a note
       </Button>
     </div>
-  );
-};
-
+   );
+}
+ 
 export default DocumentsPage;
